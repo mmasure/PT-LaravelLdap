@@ -1,0 +1,113 @@
+version: '3'
+
+networks:
+  my-network:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+    - "8080:80"
+    volumes:
+    - ./src/myapp:/var/www
+    - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - my-network
+
+  php:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: php
+    #    live coding
+    #    volumes:
+    #      - ./src/myapp:/var/www
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+      MYSQL_ROOT_PASSWORD: myapp2021 #Nb: il aime pas le mdp root
+      SERVICE_tags: dev
+      SERVICE_NAME: mysql
+    networks:
+      - my-network
+
+  openldap:
+    image: osixia/openldap:1.4.0
+    container_name: openldap
+    environment:
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "Example Inc."
+      LDAP_DOMAIN: "example.org"
+      LDAP_BASE_DN: "dc=example,dc=org"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+#      LDAP_READONLY_USER: "false"
+#      LDAP_RFC2307BIS_SCHEMA: "false"
+#      LDAP_BACKEND: "mdb"
+#      LDAP_TLS: "false"
+#      LDAP_TLS_CRT_FILENAME: "ldap.crt"
+#      LDAP_TLS_KEY_FILENAME: "ldap.key"
+#      LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
+#      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+#      LDAP_TLS_ENFORCE: "false"
+#      LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
+#      LDAP_TLS_VERIFY_CLIENT: "demand"
+#      LDAP_REPLICATION: "false"
+#      KEEP_EXISTING_CONFIG: "false"
+#      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+#      LDAP_SSL_HELPER_PREFIX: "ldap"
+#    tty: true
+#    stdin_open: true
+    volumes:
+      #      Parameter to perform with default import users and configs - Marc
+      #      - ./openLDAP/config:/var/lib/ldap
+      #      - ./openLDAP/import:/var/lib/ldap/import
+      - /etc/ldap/slapd.d
+      - /container/service/slapd/assets/certs/
+    ports:
+      - "389:389"
+      - "636:636"
+    # For replication to work correctly, domainname and hostname must be
+    # set correctly so that "hostname"."domainname" equates to the
+    # fully-qualified domain name for the host.
+    domainname: "example.org"
+    hostname: "openldap"
+    networks:
+      - my-network
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8081:80"
+    depends_on:
+      - openldap
+    networks:
+      - my-network
+
+#volumes:
+#  openldap_data:
+#    driver: local
