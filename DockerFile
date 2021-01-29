@@ -1,5 +1,9 @@
 FROM php:7.3-fpm-alpine
 
+LABEL maintainer="Marc Masure <masure.marc.59@gmail.com>"
+
+ARG BUILD_DEVELOPMENT
+
 ENV \
   APP_DIR="/var/www"
 
@@ -15,14 +19,21 @@ RUN install-php-extensions ldap
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./src/myapp $APP_DIR
+
+# clear local packages
+RUN rm -rf /var/www/composer && rm -rf /var/www/node_modules
+
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
 
 # Set working directory
 WORKDIR $APP_DIR
 
-RUN cd $APP_DIR && composer install
-RUN npm install && npm run dev
+#RUN if [ "$BUILD_DEVELOPMENT" = "prod" ]; then \
+#   cd $APP_DIR && composer install \
+#   npm install && npm run dev \
+#fi
+
 
 # Optimisation? - script for build
 #copy ./myStartupScript.sh /tmp
