@@ -22,6 +22,7 @@ COPY ./src/myapp $APP_DIR
 
 # clear local packages
 RUN rm -rf /var/www/composer && rm -rf /var/www/node_modules
+RUN rm /var/www/composer.lock && rm /var/www/package-lock.json
 
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
@@ -30,8 +31,8 @@ RUN chmod -R 755 /var/www/storage
 WORKDIR $APP_DIR
 
 #RUN if [ "$BUILD_DEVELOPMENT" = "prod" ]; then \
-#   cd $APP_DIR && composer install \
-#   npm install && npm run dev \
+RUN cd $APP_DIR && composer install
+RUN npm install && npm run dev
 #fi
 
 
