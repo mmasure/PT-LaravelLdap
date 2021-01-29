@@ -1,0 +1,47 @@
+dn: ou=Commandement,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: Commandement
+
+dn: ou=Operation,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: Operation
+
+dn: ou=Science,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: Science
+
+dn: uid=spock,ou=Science,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: spock
+cn: spock
+sn: spock
+mail: leonardn@ussenterprise.org
+userPassword: password
+
+dn: uid=jtk,ou=Commandement,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: jtk
+cn: james
+sn: tkirk
+mail: jamestkirk@ussenterprise.org
+userPassword: password
+
+dn: uid=scotty,ou=Operation,dc=ussenterprise,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+uid: scotty
+cn: montgomery
+sn: scott
+mail: montgomerys@ussenterprise.org
+userPassword: password
