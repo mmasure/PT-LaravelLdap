@@ -25,8 +25,10 @@ services:
       dockerfile: DockerFile
     container_name: php
     #    live coding
-    #    volumes:
-    #      - ./src/myapp:/var/www
+    volumes:
+      - ./src/myapp:/var/www
+    environment:
+      BUILD_DEVELOPMENT: local
     ports:
       - "9000:9000"
     depends_on:
@@ -54,14 +56,17 @@ services:
   openldap:
     image: osixia/openldap:1.4.0
     container_name: openldap
+    command: --copy-service --loglevel debug
     environment:
       LDAP_LOG_LEVEL: "256"
-      LDAP_ORGANISATION: "Example Inc."
-      LDAP_DOMAIN: "example.org"
-      LDAP_BASE_DN: "dc=example,dc=org"
+      LDAP_ORGANISATION: "Exemple Inc."
+      LDAP_DOMAIN: "ussenterprise.org"
+      LDAP_BASE_DN: "dc=ussenterprise,dc=org"
       LDAP_ADMIN_PASSWORD: "admin"
       LDAP_CONFIG_PASSWORD: "config"
-#      LDAP_READONLY_USER: "false"
+      LDAP_READONLY_USER: "true"
+      LDAP_READONLY_USER_USERNAME: "user-ro"
+      LDAP_READONLY_USER_PASSWORD: "ro_pass"
 #      LDAP_RFC2307BIS_SCHEMA: "false"
 #      LDAP_BACKEND: "mdb"
 #      LDAP_TLS: "false"
@@ -81,16 +86,10 @@ services:
     volumes:
       #      Parameter to perform with default import users and configs - Marc
       #      - ./openLDAP/config:/var/lib/ldap
-      #      - ./openLDAP/import:/var/lib/ldap/import
-      - /etc/ldap/slapd.d
-      - /container/service/slapd/assets/certs/
+      - ./openLDAP/import:/container/service/slapd/assets/config/bootstrap/ldif/custom
     ports:
       - "389:389"
       - "636:636"
-    # For replication to work correctly, domainname and hostname must be
-    # set correctly so that "hostname"."domainname" equates to the
-    # fully-qualified domain name for the host.
-    domainname: "example.org"
     hostname: "openldap"
     networks:
       - my-network

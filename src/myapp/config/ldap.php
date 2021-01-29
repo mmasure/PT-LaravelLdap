@@ -26,14 +26,18 @@ return [
     |
     */
 
+//    php artisan ldap:test - OK
+//    php artisan ldap:import users - OK
+//    connexion Laravel - KO
+
     'connections' => [
 
         'default' => [
             'hosts' => [env('LDAP_HOST', '127.0.0.1')],
-            'username' => env('LDAP_USERNAME', ''), //'cn=test,dc=example,dc=org'
-            'password' => env('LDAP_PASSWORD', ''),
+            'username' => env('LDAP_USERNAME', 'cn=user-ro,dc=ussenterprise,dc=org'), //
+            'password' => env('LDAP_PASSWORD', 'ro_pass'),
             'port' => env('LDAP_PORT', 389),
-            'base_dn' => env('LDAP_BASE_DN', 'dc=example,dc=org'),
+            'base_dn' => env('LDAP_BASE_DN', 'dc=ussenterprise,dc=org'),
             'timeout' => env('LDAP_TIMEOUT', 5),
             'use_ssl' => env('LDAP_SSL', false),
             'use_tls' => env('LDAP_TLS', false),
