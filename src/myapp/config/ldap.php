@@ -33,7 +33,7 @@ return [
     'connections' => [
 
         'default' => [
-            'hosts' => [env('LDAP_HOST', '127.0.0.1')],
+            'hosts' => [env('LDAP_HOST', 'openldap')],
             'username' => env('LDAP_USERNAME', 'cn=user-ro,dc=ussenterprise,dc=org'), //
             'password' => env('LDAP_PASSWORD', 'ro_pass'),
             'port' => env('LDAP_PORT', 389),
