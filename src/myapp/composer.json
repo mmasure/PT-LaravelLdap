@@ -11,6 +11,8 @@
         "php": "^7.2.5",
         "acacha/admin-lte-template-laravel": "^7.0",
         "arcanedev/log-viewer": "^7.1",
+        "directorytree/ldaprecord-laravel": "1.7",
+        "doctrine/dbal": "^2.10",
         "facade/ignition": "2.4.1",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
