@@ -25,8 +25,8 @@ services:
       dockerfile: DockerFile
     container_name: php
     #    live coding
-    volumes:
-      - ./src/myapp:/var/www
+#    volumes:
+#      - ./src/myapp:/var/www
     environment:
       BUILD_DEVELOPMENT: local
     ports:
@@ -67,22 +67,6 @@ services:
       LDAP_READONLY_USER: "true"
       LDAP_READONLY_USER_USERNAME: "user-ro"
       LDAP_READONLY_USER_PASSWORD: "ro_pass"
-#      LDAP_RFC2307BIS_SCHEMA: "false"
-#      LDAP_BACKEND: "mdb"
-#      LDAP_TLS: "false"
-#      LDAP_TLS_CRT_FILENAME: "ldap.crt"
-#      LDAP_TLS_KEY_FILENAME: "ldap.key"
-#      LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
-#      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
-#      LDAP_TLS_ENFORCE: "false"
-#      LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
-#      LDAP_TLS_VERIFY_CLIENT: "demand"
-#      LDAP_REPLICATION: "false"
-#      KEEP_EXISTING_CONFIG: "false"
-#      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
-#      LDAP_SSL_HELPER_PREFIX: "ldap"
-#    tty: true
-#    stdin_open: true
     volumes:
       #      Parameter to perform with default import users and configs - Marc
       #      - ./openLDAP/config:/var/lib/ldap
@@ -106,7 +90,3 @@ services:
       - openldap
     networks:
       - my-network
-
-#volumes:
-#  openldap_data:
-#    driver: local
