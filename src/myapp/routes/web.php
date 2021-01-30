@@ -12,15 +12,17 @@
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::group(['middleware' => 'auth:ldap,users'], function () {
+    Route::get('/', function () {
+        return redirect()->to('dashboard');
+    });
+    Route::get('/dashboard', 'dashboardController@index')->name('dashboard.index');
 
-Route::group(['middleware' => 'auth'], function () {
-    //    Route::get('/link1', function ()    {
-//        // Uses Auth Middleware
-//    });
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
+        Route::get('list','UserController@list')->name('list');
+        Route::post('store','UserController@store')->name('store');
+        Route::patch('{idUser}/update','UserController@update')->name('update');
+        Route::delete('{idUser}/delete','UserController@destroy')->name('delete');
+    });
 
-    //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
-    #adminlte_routes
 });
