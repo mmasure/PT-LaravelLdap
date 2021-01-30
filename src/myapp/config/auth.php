@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'ldap',
+        'guard' => 'ldap',
+        'passwords' => 'users',
     ],
 
     /*
@@ -36,9 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'ldap' => [
             'driver' => 'session',
             'provider' => 'ldap',
+        ],
+
+        'users' => [
+            'driver' => 'session',
+            'provider' => 'users',
         ],
 
         'api' => [
