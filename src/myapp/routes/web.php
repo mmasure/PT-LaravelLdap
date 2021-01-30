@@ -16,7 +16,7 @@ Route::group(['middleware' => 'auth:ldap,users'], function () {
     Route::get('/', function () {
         return redirect()->to('dashboard');
     });
-    Route::get('/dashboard', 'dashboardController@index')->name('dashboard.index');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
 
     Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
         Route::get('list','UserController@list')->name('list');
