@@ -51,7 +51,7 @@ desired effect
 
     @include('adminlte::layouts.partials.controlsidebar')
 
-    @include('adminlte::layouts.partials.footer')
+{{--    @include('adminlte::layouts.partials.footer')--}}
 
 </div><!-- ./wrapper -->
 </div>
