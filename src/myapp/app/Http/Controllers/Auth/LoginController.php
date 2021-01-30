@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -46,15 +48,48 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+       $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+//        @TODO: Disable if multi auth User/Ldap works
+//        if($request->get('ldap')){
+//            config(['auth.defaults.guard' => 'ldap']);
+//        }else {
+//            config(['auth.defaults.guard' => 'users']);
+//        }
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->filled('remember')
+        );
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
     protected function credentials(Request $request)
     {
-        return [
-            'uid' => $request->get('username'),
-            'password' => $request->get('password'),
-        ];
+//        @TODO: Disable if multi auth User/Ldap works
+//        if($request->get('ldap')){
+            return [
+                'uid' => $request->get('username'),
+                'password' => $request->get('password'),
+            ];
+//        } else {
+//            return [
+//                'username' => $request->get('username'),
+//                'password' => $request->get('password'),
+//            ];
+//        }
     }
 
     public function username()

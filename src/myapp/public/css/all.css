@@ -6,6 +6,7 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~datatables.net-bs/css/dataTables.bootstrap.css';
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
