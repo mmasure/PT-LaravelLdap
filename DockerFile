@@ -19,6 +19,7 @@ RUN install-php-extensions ldap
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./src/myapp $APP_DIR
+COPY ./src/env $APP_DIR
 
 # clear local packages
 RUN rm -rf /var/www/composer && rm -rf /var/www/node_modules
@@ -35,6 +36,7 @@ RUN cd $APP_DIR && composer install
 RUN npm install && npm run dev
 #fi
 
+RUN php artisan key:generate
 
 # Optimisation? - script for build
 #copy ./myStartupScript.sh /tmp
